@@ -2,5 +2,5 @@
 
 require('./index.html');
 require('./index.css');
-let Elm = require('./Main');
-let app = Elm.Main.fullscreen();
+const Elm = require('./Main');
+const app = Elm.Main.fullscreen();

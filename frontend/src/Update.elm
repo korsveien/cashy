@@ -1,21 +1,20 @@
 port module Update exposing (..)
 
+import Date exposing (Date)
 import Debug
+import Messages exposing (..)
 import Navigation
-import Model exposing (Model, User)
-import UrlParser as Url
+import Model exposing (..)
+import Task
 import Routing as Routing
-import Transaction
-
-
-type Msg
-    = NewUrl String
-    | UrlChange Navigation.Location
-    | Signout
-    | TransactionMsg Transaction.Msg
 
 
 port signoutUser : () -> Cmd msg
+
+
+parseAmount : String -> Float
+parseAmount amount =
+    Result.withDefault 0 (String.toFloat amount)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -34,12 +33,40 @@ update message model =
             in
                 ( { model | route = newRoute }, Cmd.none )
 
-        TransactionMsg transMsg ->
+        AddTransaction date ->
             let
-                ( updatedTransModel, transCmd ) =
-                    Transaction.update transMsg model.transactions
+                id =
+                    List.length model.transactions + 1
 
-                _ =
-                    Debug.log "updatedTransModel" updatedTransModel
+                amount =
+                    parseAmount model.transFormState.amountInput
+
+                category =
+                    model.transFormState.categoryInput
             in
-                ( { model | transactions = updatedTransModel }, Cmd.map TransactionMsg transCmd )
+                ( { model
+                    | transactions = Transaction id (Just date) category amount :: model.transactions
+                    , transFormState = { categoryInput = "", amountInput = "" }
+                  }
+                , Cmd.none
+                )
+
+        AddDate ->
+            ( model, Task.perform AddTransaction Date.now )
+
+        DeleteTransaction id ->
+            ( { model | transactions = List.filter (\trans -> trans.id /= id) model.transactions }, Cmd.none )
+
+        CategoryInput input ->
+            let
+                formState =
+                    model.transFormState
+            in
+                ( { model | transFormState = { formState | categoryInput = input } }, Cmd.none )
+
+        AmountInput input ->
+            let
+                formState =
+                    model.transFormState
+            in
+                ( { model | transFormState = { formState | amountInput = input } }, Cmd.none )

@@ -1,12 +1,11 @@
 port module Main exposing (..)
 
-import Debug
 import Navigation as Navigation
 import Model exposing (..)
+import Messages exposing (..)
 import Routing as Routing
 import Update exposing (..)
 import View exposing (..)
-import UrlParser as Url
 
 
 main =
