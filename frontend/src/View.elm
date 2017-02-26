@@ -13,47 +13,43 @@ import Routing exposing (Route(..))
 
 view : Model -> Html Msg
 view model =
+    case model.route of
+        HomeRoute ->
+            homeView model
+
+        NotFoundRoute ->
+            notFoundView
+
+
+homeView : Model -> Html Msg
+homeView model =
     section []
         [ header []
             [ button
                 [ class "menu"
                 , onClick Signout
                 ]
-                [ text "Logout" ]
+                [ text "Login" ]
             ]
         , section [ class "centered" ]
-            [ page model ]
+            [ main_ []
+                [ div [ class "header" ]
+                    [ sumView model
+                    , newTransactionForm model
+                    ]
+                , section [ class "main" ]
+                    [ ul [ class "trans-list" ]
+                        (List.map transEntryView model.transactions)
+                    ]
+                ]
+            ]
         ]
-
-
-page : Model -> Html Msg
-page model =
-    case model.route of
-        HomeRoute ->
-            mainView model
-
-        NotFoundRoute ->
-            notFoundView
 
 
 notFoundView : Html msg
 notFoundView =
     div []
         [ text "Not Found"
-        ]
-
-
-mainView : Model -> Html Msg
-mainView model =
-    main_ []
-        [ div [ class "header" ]
-            [ sumView model
-            , newTransactionForm model
-            ]
-        , section [ class "main" ]
-            [ ul [ class "trans-list" ]
-                (List.map transEntryView model.transactions)
-            ]
         ]
 
 
