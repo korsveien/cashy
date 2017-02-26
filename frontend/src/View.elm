@@ -32,9 +32,6 @@ page model =
         HomeRoute ->
             mainView model
 
-        TransactionRoute ->
-            mainView model
-
         NotFoundRoute ->
             notFoundView
 

@@ -5,8 +5,7 @@ import Navigation as Navigation
 
 
 type Route
-    = TransactionRoute
-    | NotFoundRoute
+    = NotFoundRoute
     | HomeRoute
 
 
@@ -14,7 +13,6 @@ matchers : Url.Parser (Route -> a) a
 matchers =
     Url.oneOf
         [ Url.map HomeRoute Url.top
-        , Url.map TransactionRoute (Url.s "transaction")
         ]
 
 
