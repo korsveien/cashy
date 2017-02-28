@@ -1,11 +1,12 @@
 port module Main exposing (..)
 
 import Navigation as Navigation
-import Model exposing (..)
+import Model exposing (Model)
 import Messages exposing (..)
 import Routing as Routing
 import Update exposing (..)
 import View exposing (..)
+import Environment exposing (fromLocation)
 
 
 main =
@@ -22,8 +23,11 @@ init location =
     let
         currentRoute =
             Routing.parseLocation location
+
+        env =
+            fromLocation location
     in
-        ( initialModel currentRoute, Cmd.none )
+        ( Model.init env currentRoute, Cmd.none )
 
 
 subscriptions : Model -> Sub Msg

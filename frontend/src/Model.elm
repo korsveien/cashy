@@ -2,6 +2,16 @@ module Model exposing (..)
 
 import Date as Date exposing (Date)
 import Routing as Routing
+import Environment exposing (..)
+
+
+type alias Model =
+    { route : Routing.Route
+    , env : Environment
+    , user : Maybe User
+    , transactions : List Transaction
+    , transFormState : TransactionForm
+    }
 
 
 type alias User =
@@ -19,22 +29,15 @@ type alias Transaction =
 
 
 type alias TransactionForm =
-    { amountInput : String
+    { amountInput : Sting
     , categoryInput : String
     }
 
 
-type alias Model =
-    { route : Routing.Route
-    , user : Maybe User
-    , transactions : List Transaction
-    , transFormState : TransactionForm
-    }
-
-
-initialModel : Routing.Route -> Model
-initialModel route =
+init : Environment -> Routing.Route -> Model
+init env route =
     { route = route
+    , env = env
     , user = Nothing
     , transactions = []
     , transFormState = TransactionForm "" ""

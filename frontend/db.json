@@ -1,0 +1,15 @@
+{
+	"transactions" : [
+		{ "id" : "1", "date" : "2017-01-02 00:00:00Z", "category": "Dagligvarer", "amount": 123.32 },
+		{ "id" : "2", "date" : "2017-01-04 00:00:00Z", "category": "Kiosk", "amount": 230.73 },
+		{ "id" : "3", "date" : "2017-01-08 00:00:00Z", "category": "Husleie", "amount": 6125.55 },
+		{ "id" : "4", "date" : "2017-01-12 00:00:00Z", "category": "Abbonement", "amount": 212.66 },
+		{ "id" : "5", "date" : "2017-01-19 00:00:00Z", "category": "Dagligvarer", "amount": 12.57 },
+		{ "id" : "6", "date" : "2017-01-19 00:00:00Z", "category": "Dagligvarer", "amount": 94.36 },
+		{ "id" : "7", "date" : "2017-01-19 00:00:00Z", "category": "Forsikring", "amount": 632.50 },
+		{ "id" : "8", "date" : "2017-01-20 02:03:00Z", "category": "Elektronikk", "amount": 1232.01 },
+		{ "id" : "9", "date" : "2017-01-23 12:30:00Z", "category": "Husholdning", "amount": 245.43 },
+		{ "id" : "10", "date" : "2017-01-23 23:02:00Z", "category": "Dagligvarer", "amount": 342.98 },
+		{ "id" : "11", "date" : "2017-01-23 00:00:00Z", "category": "Transport", "amount": 30.00 }
+	]
+}

@@ -10934,6 +10934,13 @@ var _ggb$numeral_elm$Numeral$Numeral = function (a) {
 		};
 	};
 };
+var _user$project$Environment$Unknown = {ctor: 'Unknown'};
+var _user$project$Environment$Prod = {ctor: 'Prod'};
+var _user$project$Environment$Test = {ctor: 'Test'};
+var _user$project$Environment$Local = {ctor: 'Local'};
+var _user$project$Environment$fromLocation = function (location) {
+	return _user$project$Environment$Local;
+};
 var _user$project$Routing$HomeRoute = {ctor: 'HomeRoute'};
 var _user$project$Routing$matchers = _evancz$url_parser$UrlParser$oneOf(
 	{
@@ -10950,6 +10957,10 @@ var _user$project$Routing$parseLocation = function (location) {
 		return _user$project$Routing$NotFoundRoute;
 	}
 };
+var _user$project$Model$Model = F5(
+	function (a, b, c, d, e) {
+		return {route: a, env: b, user: c, transactions: d, transFormState: e};
+	});
 var _user$project$Model$User = F2(
 	function (a, b) {
 		return {uid: a, email: b};
@@ -10962,17 +10973,15 @@ var _user$project$Model$TransactionForm = F2(
 	function (a, b) {
 		return {amountInput: a, categoryInput: b};
 	});
-var _user$project$Model$initialModel = function (route) {
-	return {
-		route: route,
-		user: _elm_lang$core$Maybe$Nothing,
-		transactions: {ctor: '[]'},
-		transFormState: A2(_user$project$Model$TransactionForm, '', '')
-	};
-};
-var _user$project$Model$Model = F4(
-	function (a, b, c, d) {
-		return {route: a, user: b, transactions: c, transFormState: d};
+var _user$project$Model$init = F2(
+	function (env, route) {
+		return {
+			route: route,
+			env: env,
+			user: _elm_lang$core$Maybe$Nothing,
+			transactions: {ctor: '[]'},
+			transFormState: A2(_user$project$Model$TransactionForm, '', '')
+		};
 	});
 var _user$project$Messages$AmountInput = function (a) {
 	return {ctor: 'AmountInput', _0: a};
@@ -11423,10 +11432,11 @@ var _user$project$Main$subscriptions = function (model) {
 	return _elm_lang$core$Platform_Sub$none;
 };
 var _user$project$Main$init = function (location) {
+	var env = _user$project$Environment$fromLocation(location);
 	var currentRoute = _user$project$Routing$parseLocation(location);
 	return {
 		ctor: '_Tuple2',
-		_0: _user$project$Model$initialModel(currentRoute),
+		_0: A2(_user$project$Model$init, env, currentRoute),
 		_1: _elm_lang$core$Platform_Cmd$none
 	};
 };
