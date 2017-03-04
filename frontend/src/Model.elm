@@ -29,7 +29,7 @@ type alias Transaction =
 
 
 type alias TransactionForm =
-    { amountInput : Sting
+    { amountInput : String
     , categoryInput : String
     }
 
