@@ -9,20 +9,37 @@ import Model exposing (..)
 import Numeral exposing (formatWithLanguage)
 import Languages.French as French
 import Routing exposing (Route(..))
+import RemoteData exposing (WebData, RemoteData(..))
 
 
 view : Model -> Html Msg
 view model =
     case model.route of
         HomeRoute ->
-            homeView model
+            checkLoadStateView model
 
         NotFoundRoute ->
             notFoundView
 
 
-homeView : Model -> Html Msg
-homeView model =
+checkLoadStateView : Model -> Html Msg
+checkLoadStateView model =
+    case model.transactions of
+        NotAsked ->
+            text "Initialising..."
+
+        Loading ->
+            text "Loading transactions..."
+
+        Failure err ->
+            text ("Error: " ++ toString err)
+
+        Success transactions ->
+            transactionsView transactions model.transFormState
+
+
+transactionsView : List Transaction -> Model.TransactionForm -> Html Msg
+transactionsView transactions formData =
     section []
         [ header []
             [ button
@@ -34,12 +51,12 @@ homeView model =
         , section [ class "centered" ]
             [ main_ []
                 [ div [ class "header" ]
-                    [ sumView model
-                    , newTransactionForm model
+                    [ sumView transactions
+                    , newTransactionForm formData
                     ]
                 , section [ class "main" ]
                     [ ul [ class "trans-list" ]
-                        (List.map transEntryView model.transactions)
+                        (List.map transEntryView transactions)
                     ]
                 ]
             ]
@@ -53,16 +70,16 @@ notFoundView =
         ]
 
 
-newTransactionForm : Model -> Html Msg
-newTransactionForm model =
-    Html.form [ onSubmit AddDate ]
+newTransactionForm : TransactionForm -> Html Msg
+newTransactionForm formData =
+    Html.form []
         [ input
             [ id "category-input"
             , class "coin-input"
             , placeholder "Kategori"
             , autofocus True
             , onInput CategoryInput
-            , value model.transFormState.categoryInput
+            , value formData.categoryInput
             ]
             []
         , input
@@ -70,7 +87,7 @@ newTransactionForm model =
             , placeholder "Beløp"
             , type_ "number"
             , onInput AmountInput
-            , value model.transFormState.amountInput
+            , value formData.amountInput
             ]
             []
         , button [ class "add" ]
@@ -78,9 +95,9 @@ newTransactionForm model =
         ]
 
 
-calculateSum : Model -> Float
-calculateSum model =
-    model.transactions
+calculateSum : List Transaction -> Float
+calculateSum transactions =
+    transactions
         |> List.map .amount
         |> List.sum
 
@@ -90,11 +107,11 @@ formatSum sum =
     formatWithLanguage French.lang "0,0.00" sum
 
 
-sumView : Model -> Html Msg
-sumView model =
+sumView : List Transaction -> Html Msg
+sumView transactions =
     let
         sum =
-            calculateSum model
+            calculateSum transactions
 
         color =
             if sum < 0 then
@@ -104,7 +121,7 @@ sumView model =
     in
         h1 [ class color ]
             [ text
-                (model
+                (transactions
                     |> calculateSum
                     |> formatSum
                 )
@@ -120,28 +137,22 @@ transEntryView transaction =
             , span [] [ text (formatSum transaction.amount) ]
             , button
                 [ class "delete"
-                , onClick (DeleteTransaction transaction.id)
                 ]
                 [ text "Delete" ]
             ]
         ]
 
 
-formatDate : Maybe Date -> String
+formatDate : Date -> String
 formatDate date =
-    case date of
-        Just date ->
-            let
-                year =
-                    date |> Date.year |> toString
+    let
+        year =
+            date |> Date.year |> toString
 
-                month =
-                    date |> Date.month |> toString
+        month =
+            date |> Date.month |> toString
 
-                day =
-                    date |> Date.day |> toString
-            in
-                year ++ "-" ++ month ++ "-" ++ day
-
-        Nothing ->
-            ""
+        day =
+            date |> Date.day |> toString
+    in
+        year ++ "-" ++ month ++ "-" ++ day

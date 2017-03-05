@@ -4,7 +4,7 @@
   "description": "",
   "main": "webpack.config.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "elm-test ./tests/Main.elm",
     "build": "webpack",
     "watch": "webpack --watch",
     "dev": "elm-live --port=3000 --dir=./build/ src/Main.elm",

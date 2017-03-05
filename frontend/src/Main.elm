@@ -7,6 +7,7 @@ import Routing as Routing
 import Update exposing (..)
 import View exposing (..)
 import Environment exposing (fromLocation)
+import Commands exposing (fetchTransactions)
 
 
 main =
@@ -18,7 +19,7 @@ main =
         }
 
 
-init : Navigation.Location -> ( Model, Cmd msg )
+init : Navigation.Location -> ( Model, Cmd Msg )
 init location =
     let
         currentRoute =
@@ -27,7 +28,7 @@ init location =
         env =
             fromLocation location
     in
-        ( Model.init env currentRoute, Cmd.none )
+        ( Model.init env currentRoute, fetchTransactions )
 
 
 subscriptions : Model -> Sub Msg

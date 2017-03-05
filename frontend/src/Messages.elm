@@ -2,14 +2,14 @@ module Messages exposing (Msg(..))
 
 import Date exposing (Date)
 import Navigation
+import Model exposing (Transaction)
+import RemoteData exposing (WebData)
 
 
 type Msg
     = NewUrl String
     | UrlChange Navigation.Location
+    | LoadTransactions (WebData (List Transaction))
     | Signout
-    | AddDate
-    | AddTransaction Date
-    | DeleteTransaction Int
     | CategoryInput String
     | AmountInput String

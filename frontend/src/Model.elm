@@ -3,13 +3,14 @@ module Model exposing (..)
 import Date as Date exposing (Date)
 import Routing as Routing
 import Environment exposing (..)
+import RemoteData exposing (WebData)
 
 
 type alias Model =
     { route : Routing.Route
     , env : Environment
     , user : Maybe User
-    , transactions : List Transaction
+    , transactions : WebData (List Transaction)
     , transFormState : TransactionForm
     }
 
@@ -21,8 +22,8 @@ type alias User =
 
 
 type alias Transaction =
-    { id : Int
-    , date : Maybe Date
+    { id : String
+    , date : Date
     , category : String
     , amount : Float
     }
@@ -39,6 +40,6 @@ init env route =
     { route = route
     , env = env
     , user = Nothing
-    , transactions = []
+    , transactions = RemoteData.Loading
     , transFormState = TransactionForm "" ""
     }
