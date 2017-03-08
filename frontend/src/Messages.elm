@@ -13,3 +13,4 @@ type Msg
     | Signout
     | CategoryInput String
     | AmountInput String
+    | SaveTransaction

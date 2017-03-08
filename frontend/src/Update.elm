@@ -1,11 +1,9 @@
 port module Update exposing (..)
 
-import Date exposing (Date)
 import Debug
 import Messages exposing (..)
 import Navigation
 import Model exposing (..)
-import Task
 import Routing as Routing
 
 
@@ -49,3 +47,6 @@ update message model =
                     model.transFormState
             in
                 ( { model | transFormState = { formState | amountInput = input } }, Cmd.none )
+
+        SaveTransaction ->
+            ( model, Cmd.none )

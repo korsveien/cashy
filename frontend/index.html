@@ -11517,6 +11517,7 @@ var _user$project$Model$init = F2(
 			transFormState: A2(_user$project$Model$TransactionForm, '', '')
 		};
 	});
+var _user$project$Messages$SaveTransaction = {ctor: 'SaveTransaction'};
 var _user$project$Messages$AmountInput = function (a) {
 	return {ctor: 'AmountInput', _0: a};
 };
@@ -11615,7 +11616,7 @@ var _user$project$Update$update = F2(
 						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
-			default:
+			case 'AmountInput':
 				var formState = model.transFormState;
 				return {
 					ctor: '_Tuple2',
@@ -11628,6 +11629,8 @@ var _user$project$Update$update = F2(
 						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
+			default:
+				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 		}
 	});
 var _user$project$View$formatDate = function (date) {
@@ -11812,7 +11815,11 @@ var _user$project$View$newTransactionForm = function (formData) {
 						{
 							ctor: '::',
 							_0: _elm_lang$html$Html_Attributes$class('add'),
-							_1: {ctor: '[]'}
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Events$onClick(_user$project$Messages$SaveTransaction),
+								_1: {ctor: '[]'}
+							}
 						},
 						{
 							ctor: '::',

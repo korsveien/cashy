@@ -7,7 +7,7 @@
     "test": "elm-test ./tests/Main.elm",
     "build": "webpack",
     "watch": "webpack --watch",
-    "dev": "elm-live --port=3000 --dir=./build/ src/Main.elm",
+	"dev": "webpack-dev-server --port 3000",
     "api": "node api.js"
   },
   "author": "",
