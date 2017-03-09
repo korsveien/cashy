@@ -14,3 +14,4 @@ type Msg
     | CategoryInput String
     | AmountInput String
     | SaveTransaction
+    | SavedTransaction
