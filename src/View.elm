@@ -90,7 +90,7 @@ newTransactionForm formData =
             , value formData.amountInput
             ]
             []
-        , button [ class "add", onClick SaveTransaction ]
+        , button [ class "add" ]
             [ text "Add" ]
         ]
 
@@ -134,7 +134,7 @@ transEntryView transaction =
         [ div [ class "view" ]
             [ span [] [ text (formatDate transaction.date) ]
             , span [] [ text transaction.category ]
-            , span [] [ text (formatSum transaction.amount) ]
+            , span [] [ text (toString transaction.amount) ]
             , button
                 [ class "delete"
                 ]

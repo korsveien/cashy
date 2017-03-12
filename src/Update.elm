@@ -6,14 +6,11 @@ import Navigation
 import Model exposing (..)
 import Routing as Routing
 import Task exposing (..)
+import Date
+import Random
 
 
 port signoutUser : () -> Cmd msg
-
-
-parseAmount : String -> Float
-parseAmount amount =
-    Result.withDefault 0 (String.toFloat amount)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -48,13 +45,3 @@ update message model =
                     model.transFormState
             in
                 ( { model | transFormState = { formState | amountInput = input } }, Cmd.none )
-
-        SaveTransaction ->
-            let
-                foo =
-                    1
-            in
-                ( model, Cmd.none )
-
-        SavedTransaction ->
-            ( model, Cmd.none )

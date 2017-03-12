@@ -22,8 +22,7 @@ type alias User =
 
 
 type alias Transaction =
-    { id : String
-    , date : Date
+    { date : Date
     , category : String
     , amount : Float
     }
