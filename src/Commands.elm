@@ -18,11 +18,11 @@ fetchTransactions =
         |> Cmd.map Messages.LoadTransactions
 
 
-saveTransaction : Transaction -> Cmd Msg
-saveTransaction transaction =
+saveTransactionRequest : Transaction -> Http.Request Transaction
+saveTransactionRequest transaction =
     Http.request
         { body = transactionEncoder transaction |> Http.jsonBody
-        , expect = Http.expextJson transactionEncoder
+        , expect = Http.expectJson transactionDecoder
         , headers = []
         , method = "PUT"
         , timeout = Nothing
@@ -51,7 +51,7 @@ transactionEncoder transaction =
             , ( "amount", JE.float transaction.amount )
             ]
     in
-        JE.encode attributes
+        JE.object attributes
 
 
 transactionsDecoder : JD.Decoder (List Transaction)

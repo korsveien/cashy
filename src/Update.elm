@@ -5,6 +5,7 @@ import Messages exposing (..)
 import Navigation
 import Model exposing (..)
 import Routing as Routing
+import Task exposing (..)
 
 
 port signoutUser : () -> Cmd msg
@@ -49,4 +50,11 @@ update message model =
                 ( { model | transFormState = { formState | amountInput = input } }, Cmd.none )
 
         SaveTransaction ->
+            let
+                foo =
+                    1
+            in
+                ( model, Cmd.none )
+
+        SavedTransaction ->
             ( model, Cmd.none )

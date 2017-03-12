@@ -7,7 +7,7 @@
     "test": "elm-test ./tests/Main.elm",
     "build": "webpack",
     "watch": "webpack --watch",
-	"dev": "webpack-dev-server --port 3000",
+    "dev": "nf start",
     "api": "node api.js"
   },
   "author": "",
