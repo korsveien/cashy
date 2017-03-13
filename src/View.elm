@@ -9,37 +9,20 @@ import Model exposing (..)
 import Numeral exposing (formatWithLanguage)
 import Languages.French as French
 import Routing exposing (Route(..))
-import RemoteData exposing (WebData, RemoteData(..))
 
 
 view : Model -> Html Msg
 view model =
     case model.route of
         HomeRoute ->
-            checkLoadStateView model
+            transactionsView model
 
         NotFoundRoute ->
             notFoundView
 
 
-checkLoadStateView : Model -> Html Msg
-checkLoadStateView model =
-    case model.transactions of
-        NotAsked ->
-            text "Initialising..."
-
-        Loading ->
-            text "Loading transactions..."
-
-        Failure err ->
-            text ("Error: " ++ toString err)
-
-        Success transactions ->
-            transactionsView transactions model.transFormState
-
-
-transactionsView : List Transaction -> Model.TransactionForm -> Html Msg
-transactionsView transactions formData =
+transactionsView : Model -> Html Msg
+transactionsView model =
     section []
         [ header []
             [ button
@@ -51,16 +34,27 @@ transactionsView transactions formData =
         , section [ class "centered" ]
             [ main_ []
                 [ div [ class "header" ]
-                    [ sumView transactions
-                    , newTransactionForm formData
+                    [ sumView model.transactions
+                    , newTransactionForm model.transFormState
                     ]
                 , section [ class "main" ]
                     [ ul [ class "trans-list" ]
-                        (List.map transEntryView transactions)
+                        (List.map transEntryView model.transactions)
                     ]
                 ]
             ]
+        , errorView model.state.error
         ]
+
+
+errorView : Maybe String -> Html msg
+errorView error =
+    case error of
+        Just error ->
+            div [ class "errors" ] [ text ("Error: " ++ error) ]
+
+        Nothing ->
+            text ""
 
 
 notFoundView : Html msg

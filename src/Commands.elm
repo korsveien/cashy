@@ -6,16 +6,27 @@ import Json.Decode.Extra as JDExtra
 import Json.Decode.Pipeline as Pipeline
 import Json.Encode as JE
 import Date.Extra exposing (toUtcIsoString)
-import Messages exposing (Msg)
+import Messages exposing (Msg(..))
 import Model exposing (Transaction)
-import RemoteData
 
 
 fetchTransactions : Cmd Msg
 fetchTransactions =
-    Http.get transactionsUrl transactionsDecoder
-        |> RemoteData.sendRequest
-        |> Cmd.map Messages.LoadTransactions
+    Http.send LoadedTransactions (Http.get transactionsUrl transactionsDecoder)
+
+
+saveTransaction : Http.Request Transaction -> Cmd Msg
+saveTransaction request =
+    Http.send Messages.SavedTransaction request
+
+
+saveTransactionRequest : Transaction -> Http.Request Transaction
+saveTransactionRequest transaction =
+    Http.post transactionsUrl
+        (transactionEncoder transaction
+            |> Http.jsonBody
+        )
+        transactionDecoder
 
 
 transactionsUrl : String
@@ -27,7 +38,8 @@ transactionEncoder : Transaction -> JE.Value
 transactionEncoder transaction =
     let
         attributes =
-            [ ( "date", JE.string (toUtcIsoString transaction.date) )
+            [ ( "id", JE.string transaction.id )
+            , ( "date", JE.string (toUtcIsoString transaction.date) )
             , ( "category", JE.string transaction.category )
             , ( "amount", JE.float transaction.amount )
             ]
@@ -43,6 +55,7 @@ transactionsDecoder =
 transactionDecoder : JD.Decoder Transaction
 transactionDecoder =
     Pipeline.decode Transaction
+        |> Pipeline.required "id" JD.string
         |> Pipeline.required "date" JDExtra.date
         |> Pipeline.required "category" JD.string
         |> Pipeline.required "amount" JD.float

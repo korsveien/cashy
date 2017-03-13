@@ -5,9 +5,7 @@ import Messages exposing (..)
 import Navigation
 import Model exposing (..)
 import Routing as Routing
-import Task exposing (..)
-import Date
-import Random
+import Commands exposing (..)
 
 
 port signoutUser : () -> Cmd msg
@@ -16,8 +14,14 @@ port signoutUser : () -> Cmd msg
 update : Msg -> Model -> ( Model, Cmd Msg )
 update message model =
     case Debug.log "message" message of
-        LoadTransactions response ->
-            ( { model | transactions = response }, Cmd.none )
+        LoadTransactions ->
+            ( model, fetchTransactions )
+
+        LoadedTransactions (Ok response) ->
+            ( { model | transactions = response, state = { error = Nothing } }, Cmd.none )
+
+        LoadedTransactions (Err _) ->
+            ( { model | state = { error = (Just "Could not load transactions") } }, Cmd.none )
 
         Signout ->
             ( model, signoutUser () )
@@ -45,3 +49,12 @@ update message model =
                     model.transFormState
             in
                 ( { model | transFormState = { formState | amountInput = input } }, Cmd.none )
+
+        SaveTransaction ->
+            ( model, Cmd.none )
+
+        SavedTransaction (Ok transaction) ->
+            ( { model | transactions = transaction :: model.transactions }, Cmd.none )
+
+        SavedTransaction (Err _) ->
+            ( model, Cmd.none )

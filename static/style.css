@@ -167,3 +167,11 @@ form {
 .hidden {
     display: none;
 }
+
+.errors {
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	padding: 10px;
+	border-left: 5px solid #d9534f
+}
+
