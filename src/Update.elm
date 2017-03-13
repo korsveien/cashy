@@ -20,8 +20,8 @@ update message model =
         LoadedTransactions (Ok response) ->
             ( { model | transactions = response, state = { error = Nothing } }, Cmd.none )
 
-        LoadedTransactions (Err _) ->
-            ( { model | state = { error = (Just "Could not load transactions") } }, Cmd.none )
+        LoadedTransactions (Err err) ->
+            ( { model | state = { error = (Just ("Could not load transactions (" ++ (toString err) ++ ")")) } }, Cmd.none )
 
         Signout ->
             ( model, signoutUser () )
@@ -56,5 +56,5 @@ update message model =
         SavedTransaction (Ok transaction) ->
             ( { model | transactions = transaction :: model.transactions }, Cmd.none )
 
-        SavedTransaction (Err _) ->
-            ( model, Cmd.none )
+        SavedTransaction (Err err) ->
+            ( { model | state = { error = (Just ("Could not save transaction (" ++ (toString err) ++ ")")) } }, Cmd.none )

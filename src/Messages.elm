@@ -3,7 +3,6 @@ module Messages exposing (Msg(..))
 import Date exposing (Date)
 import Navigation
 import Model exposing (Transaction)
-import RemoteData exposing (WebData)
 import Http exposing (..)
 
 
