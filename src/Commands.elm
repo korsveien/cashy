@@ -1,13 +1,15 @@
 module Commands exposing (..)
 
-import Http
+import Date exposing (Date)
+import Http exposing (Error)
 import Json.Decode as JD
 import Json.Decode.Extra as JDExtra
 import Json.Decode.Pipeline as Pipeline
 import Json.Encode as JE
 import Date.Extra exposing (toUtcIsoString)
 import Messages exposing (Msg(..))
-import Model exposing (Transaction)
+import Model exposing (..)
+import Task exposing (Task)
 
 
 fetchTransactions : Cmd Msg
@@ -15,18 +17,27 @@ fetchTransactions =
     Http.send LoadedTransactions (Http.get transactionsUrl transactionsDecoder)
 
 
-saveTransaction : Http.Request Transaction -> Cmd Msg
-saveTransaction request =
-    Http.send Messages.SavedTransaction request
+saveTransactionRequest : Model -> Date -> Task Error Transaction
+saveTransactionRequest model date =
+    let
+        id =
+            (List.length model.transactions) + 1 |> toString
 
+        category =
+            model.transFormState.categoryInput
 
-saveTransactionRequest : Transaction -> Http.Request Transaction
-saveTransactionRequest transaction =
-    Http.post transactionsUrl
-        (transactionEncoder transaction
-            |> Http.jsonBody
-        )
-        transactionDecoder
+        amount =
+            Result.withDefault 0 (String.toFloat model.transFormState.amountInput)
+
+        transaction =
+            Transaction id date category amount
+    in
+        Http.post transactionsUrl
+            (transactionEncoder transaction
+                |> Http.jsonBody
+            )
+            transactionDecoder
+        |> Http.toTask
 
 
 transactionsUrl : String

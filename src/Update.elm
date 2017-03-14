@@ -1,11 +1,14 @@
 port module Update exposing (..)
 
+import Date
 import Debug
+import Http exposing (toTask)
 import Messages exposing (..)
 import Navigation
 import Model exposing (..)
 import Routing as Routing
 import Commands exposing (..)
+import Task
 
 
 port signoutUser : () -> Cmd msg
@@ -51,10 +54,10 @@ update message model =
                 ( { model | transFormState = { formState | amountInput = input } }, Cmd.none )
 
         SaveTransaction ->
-            ( model, Cmd.none )
+            ( model, Task.attempt SavedTransaction (Date.now |> Task.andThen (\date -> saveTransactionRequest model date)) )
 
         SavedTransaction (Ok transaction) ->
             ( { model | transactions = transaction :: model.transactions }, Cmd.none )
 
         SavedTransaction (Err err) ->
-            ( { model | state = { error = (Just ("Could not save transaction (" ++ (toString err) ++ ")")) } }, Cmd.none )
+            ( { model | state = { error = (Just ("Could not save transaction: " ++ (toString err))) } }, Cmd.none )

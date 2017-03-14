@@ -84,7 +84,7 @@ newTransactionForm formData =
             , value formData.amountInput
             ]
             []
-        , button [ class "add" ]
+        , button [ class "add", onClick SaveTransaction ]
             [ text "Add" ]
         ]
 
