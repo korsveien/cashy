@@ -131,6 +131,7 @@ transEntryView transaction =
             , span [] [ text (toString transaction.amount) ]
             , button
                 [ class "delete"
+                , onClick (DeleteTransaction transaction.id)
                 ]
                 [ text "Delete" ]
             ]

@@ -59,4 +59,13 @@ update message model =
             ( { model | transactions = transaction :: model.transactions }, Cmd.none )
 
         SavedTransaction (Err err) ->
-            ( { model | state = { error = (Just ("Could not save transaction: " ++ (toString err))) } }, Cmd.none )
+            ( { model | state = { error = (Just ("Could not save transaction (" ++ (toString err) ++ ")")) } }, Cmd.none )
+
+        DeleteTransaction id ->
+            ( model, deleteTransaction id )
+
+        DeletedTransaction (Ok id) ->
+            ( { model | transactions = List.filter (\t -> t.id /= id) model.transactions }, Cmd.none )
+
+        DeletedTransaction (Err err) ->
+            ( { model | state = { error = (Just ("Could not delete transaction (" ++ (toString err) ++ ")")) } }, Cmd.none )

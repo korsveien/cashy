@@ -16,3 +16,5 @@ type Msg
     | LoadedTransactions (Result Http.Error (List Transaction))
     | SaveTransaction
     | SavedTransaction (Result Http.Error Transaction)
+    | DeleteTransaction String
+    | DeletedTransaction (Result Http.Error String)

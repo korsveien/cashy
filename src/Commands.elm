@@ -1,7 +1,7 @@
 module Commands exposing (..)
 
 import Date exposing (Date)
-import Http exposing (Error)
+import Http exposing (..)
 import Json.Decode as JD
 import Json.Decode.Extra as JDExtra
 import Json.Decode.Pipeline as Pipeline
@@ -40,9 +40,24 @@ saveTransactionRequest model date =
             |> Http.toTask
 
 
+deleteTransaction : String -> Cmd Msg
+deleteTransaction id =
+    Http.send DeletedTransaction
+        (Http.request
+            { method = "DELETE"
+            , headers = []
+            , url = transactionsUrl ++ id
+            , expect = expectStringResponse (\_ -> Ok id)
+            , body = emptyBody
+            , timeout = Nothing
+            , withCredentials = False
+            }
+        )
+
+
 transactionsUrl : String
 transactionsUrl =
-    "http://localhost:4000/transactions"
+    "http://localhost:4000/transactions/"
 
 
 transactionEncoder : Transaction -> JE.Value
