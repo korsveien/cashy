@@ -2,7 +2,6 @@ port module Update exposing (..)
 
 import Date
 import Debug
-import Http exposing (toTask)
 import Messages exposing (..)
 import Navigation
 import Model exposing (..)
