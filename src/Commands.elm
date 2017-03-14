@@ -24,10 +24,10 @@ saveTransactionRequest model date =
             (List.length model.transactions) + 1 |> toString
 
         category =
-            model.transFormState.categoryInput
+            model.formData.categoryInput
 
         amount =
-            Result.withDefault 0 (String.toFloat model.transFormState.amountInput)
+            Result.withDefault 0 (String.toFloat model.formData.amountInput)
 
         transaction =
             Transaction id date category amount
@@ -37,7 +37,7 @@ saveTransactionRequest model date =
                 |> Http.jsonBody
             )
             transactionDecoder
-        |> Http.toTask
+            |> Http.toTask
 
 
 transactionsUrl : String

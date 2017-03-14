@@ -35,7 +35,7 @@ transactionsView model =
             [ main_ []
                 [ div [ class "header" ]
                     [ sumView model.transactions
-                    , newTransactionForm model.transFormState
+                    , newTransactionForm model.formData
                     ]
                 , section [ class "main" ]
                     [ ul [ class "trans-list" ]
@@ -64,7 +64,7 @@ notFoundView =
         ]
 
 
-newTransactionForm : TransactionForm -> Html Msg
+newTransactionForm : Form -> Html Msg
 newTransactionForm formData =
     Html.form []
         [ input

@@ -11,7 +11,7 @@ type alias Model =
     , state : State
     , user : Maybe User
     , transactions : List Transaction
-    , transFormState : TransactionForm
+    , formData : Form
     }
 
 
@@ -34,7 +34,7 @@ type alias Transaction =
     }
 
 
-type alias TransactionForm =
+type alias Form =
     { amountInput : String
     , categoryInput : String
     }
@@ -47,5 +47,5 @@ init env route =
     , state = { error = Nothing }
     , user = Nothing
     , transactions = []
-    , transFormState = TransactionForm "" ""
+    , formData = Form "" ""
     }
