@@ -65,7 +65,7 @@ update message model =
             ( model, deleteTransaction id )
 
         DeletedTransaction (Ok id) ->
-            ( { model | transactions = List.filter (\t -> t.id /= id) model.transactions }, Cmd.none )
+            ( { model | transactions = List.filter (\t -> t.id /= id) model.transactions, state = { error = Nothing } }, Cmd.none )
 
         DeletedTransaction (Err err) ->
             ( { model | state = { error = (Just ("Could not delete transaction (" ++ (toString err) ++ ")")) } }, Cmd.none )

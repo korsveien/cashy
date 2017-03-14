@@ -20,8 +20,9 @@ fetchTransactions =
 saveTransactionRequest : Model -> Date -> Task Error Transaction
 saveTransactionRequest model date =
     let
+        -- backend will provide id
         id =
-            (List.length model.transactions) + 1 |> toString
+            ""
 
         category =
             model.formData.categoryInput
