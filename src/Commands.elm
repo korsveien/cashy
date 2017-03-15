@@ -25,10 +25,10 @@ saveTransactionRequest model date =
             ""
 
         category =
-            model.formData.categoryInput
+            model.transactionForm.category
 
         amount =
-            Result.withDefault 0 (String.toFloat model.formData.amountInput)
+            Result.withDefault 0 (String.toFloat model.transactionForm.amount)
 
         transaction =
             Transaction id date category amount

@@ -40,11 +40,20 @@ loginView model =
         [ label [ for "email-input" ] [ text "Email" ]
         , input
             [ id "email-input"
-            , class "u-full-width"
+            , class "u-half-width"
             , type_ "email"
             , placeholder "your@email.com"
             ]
             []
+        , label [ for "password-input" ] [ text "Password" ]
+        , input
+            [ id "password-input"
+            , class "u-half-width"
+            , type_ "password"
+            , placeholder "************"
+            ]
+            []
+        , div [] [ button [ type_ "submit" ] [ text "Log in" ] ]
         ]
 
 
@@ -62,7 +71,7 @@ transactionsView model =
             [ main_ []
                 [ div [ class "header" ]
                     [ sumView model.transactions
-                    , newTransactionForm model.formData
+                    , newTransactionForm model.transactionForm
                     ]
                 , section [ class "main" ]
                     [ ul [ class "trans-list" ]
@@ -91,8 +100,8 @@ notFoundView =
         ]
 
 
-newTransactionForm : Form -> Html Msg
-newTransactionForm formData =
+newTransactionForm : TransactionForm -> Html Msg
+newTransactionForm transactionForm =
     Html.form []
         [ input
             [ id "category-input"
@@ -100,7 +109,7 @@ newTransactionForm formData =
             , placeholder "Kategori"
             , autofocus True
             , onInput CategoryInput
-            , value formData.categoryInput
+            , value transactionForm.category
             ]
             []
         , input
@@ -108,7 +117,7 @@ newTransactionForm formData =
             , placeholder "Beløp"
             , type_ "number"
             , onInput AmountInput
-            , value formData.amountInput
+            , value transactionForm.amount
             ]
             []
         , button [ class "add", onClick SaveTransaction ]

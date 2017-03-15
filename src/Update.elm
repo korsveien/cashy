@@ -41,16 +41,16 @@ update message model =
         CategoryInput input ->
             let
                 formState =
-                    model.formData
+                    model.transactionForm
             in
-                ( { model | formData = { formState | categoryInput = input } }, Cmd.none )
+                ( { model | transactionForm = { formState | category = input } }, Cmd.none )
 
         AmountInput input ->
             let
                 formState =
-                    model.formData
+                    model.transactionForm
             in
-                ( { model | formData = { formState | amountInput = input } }, Cmd.none )
+                ( { model | transactionForm = { formState | amount = input } }, Cmd.none )
 
         SaveTransaction ->
             ( model, Task.attempt SavedTransaction (Date.now |> Task.andThen (\date -> saveTransactionRequest model date)) )

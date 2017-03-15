@@ -11,7 +11,7 @@ type alias Model =
     , env : Environment
     , state : State
     , transactions : List Transaction
-    , formData : Form
+    , transactionForm : TransactionForm
     }
 
 
@@ -34,9 +34,15 @@ type alias Transaction =
     }
 
 
-type alias Form =
-    { amountInput : String
-    , categoryInput : String
+type alias LoginForm =
+    { email : String
+    , password : String
+    }
+
+
+type alias TransactionForm =
+    { amount : String
+    , category : String
     }
 
 
@@ -45,7 +51,7 @@ init env route =
     { route = route
     , env = env
     , state = { error = Nothing }
-    , auth = LoggedIn
+    , auth = LoggedOut
     , transactions = []
-    , formData = Form "" ""
+    , transactionForm = TransactionForm "" ""
     }
