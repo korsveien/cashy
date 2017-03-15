@@ -7,9 +7,9 @@ import Environment exposing (..)
 
 type alias Model =
     { route : Routing.Route
+    , auth : Auth
     , env : Environment
     , state : State
-    , user : Maybe User
     , transactions : List Transaction
     , formData : Form
     }
@@ -20,10 +20,10 @@ type alias State =
     }
 
 
-type alias User =
-    { uid : String
-    , email : String
-    }
+type Auth
+    = Checking
+    | LoggedIn
+    | LoggedOut
 
 
 type alias Transaction =
@@ -45,7 +45,7 @@ init env route =
     { route = route
     , env = env
     , state = { error = Nothing }
-    , user = Nothing
+    , auth = LoggedIn
     , transactions = []
     , formData = Form "" ""
     }

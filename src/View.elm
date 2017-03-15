@@ -13,12 +13,39 @@ import Routing exposing (Route(..))
 
 view : Model -> Html Msg
 view model =
+    case model.auth of
+        Checking ->
+            viewRouter model
+
+        LoggedIn ->
+            viewRouter model
+
+        LoggedOut ->
+            loginView model
+
+
+viewRouter : Model -> Html Msg
+viewRouter model =
     case model.route of
         HomeRoute ->
             transactionsView model
 
         NotFoundRoute ->
             notFoundView
+
+
+loginView : Model -> Html Msg
+loginView model =
+    Html.form []
+        [ label [ for "email-input" ] [ text "Email" ]
+        , input
+            [ id "email-input"
+            , class "u-full-width"
+            , type_ "email"
+            , placeholder "your@email.com"
+            ]
+            []
+        ]
 
 
 transactionsView : Model -> Html Msg
