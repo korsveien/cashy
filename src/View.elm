@@ -15,27 +15,74 @@ view : Model -> Html Msg
 view model =
     case model.auth of
         Checking ->
-            viewRouter model
+            viewCheckingAuth
 
         LoggedIn ->
             viewRouter model
 
         LoggedOut ->
-            loginView model
+            loginView
+
+
+viewCheckingAuth : Html Msg
+viewCheckingAuth =
+    text "Checking credentials..."
 
 
 viewRouter : Model -> Html Msg
 viewRouter model =
-    case model.route of
+    case Debug.log "viewRouter" model.route of
         HomeRoute ->
+            transactionsView model
+
+        TransactionRoute ->
             transactionsView model
 
         NotFoundRoute ->
             notFoundView
 
+        SignupRoute ->
+            signupView
 
-loginView : Model -> Html Msg
-loginView model =
+        LoginRoute ->
+            loginView
+
+
+signupView : Html Msg
+signupView =
+    Html.form []
+        [ label [ for "email-input" ] [ text "Email" ]
+        , input
+            [ id "email-input"
+            , class "u-half-width"
+            , type_ "email"
+            , placeholder "your@email.com"
+            ]
+            []
+        , label [ for "password-input" ] [ text "Password" ]
+        , input
+            [ id "password-input"
+            , class "u-half-width"
+            , type_ "password"
+            , placeholder "Chose password"
+            ]
+            []
+        , div []
+            [ input
+                [ id "verify-password-input"
+                , class "u-half-width"
+                , type_ "password"
+                , placeholder "Repeat password"
+                ]
+                []
+            ]
+        , div [] [ button [ type_ "submit" ] [ text "Sign up" ] ]
+        , div [] [ a [ onClick (NewUrl "login") ] [ text "Login" ] ]
+        ]
+
+
+loginView : Html Msg
+loginView =
     Html.form []
         [ label [ for "email-input" ] [ text "Email" ]
         , input
@@ -54,6 +101,7 @@ loginView model =
             ]
             []
         , div [] [ button [ type_ "submit" ] [ text "Log in" ] ]
+        , div [] [ a [ onClick (NewUrl "signup") ] [ text "Sign up" ] ]
         ]
 
 
@@ -65,7 +113,7 @@ transactionsView model =
                 [ class "menu"
                 , onClick Signout
                 ]
-                [ text "Login" ]
+                [ text "Logout" ]
             ]
         , section [ class "centered" ]
             [ main_ []

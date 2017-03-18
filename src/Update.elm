@@ -10,9 +10,6 @@ import Commands exposing (..)
 import Task
 
 
-port signoutUser : () -> Cmd msg
-
-
 update : Msg -> Model -> ( Model, Cmd Msg )
 update message model =
     case Debug.log "message" message of
@@ -26,7 +23,7 @@ update message model =
             ( { model | state = { error = (Just ("Could not load transactions (" ++ (toString err) ++ ")")) } }, Cmd.none )
 
         Signout ->
-            ( model, signoutUser () )
+            ( model, Navigation.newUrl "login" )
 
         NewUrl url ->
             ( model, Navigation.newUrl url )

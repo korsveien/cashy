@@ -51,7 +51,7 @@ init env route =
     { route = route
     , env = env
     , state = { error = Nothing }
-    , auth = LoggedOut
+    , auth = LoggedIn
     , transactions = []
     , transactionForm = TransactionForm "" ""
     }

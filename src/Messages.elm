@@ -1,6 +1,5 @@
 module Messages exposing (Msg(..))
 
-import Date exposing (Date)
 import Navigation
 import Model exposing (Transaction)
 import Http exposing (..)
